@@ -22,17 +22,22 @@ public class BarcaMovement : MonoBehaviour
 
     private Vector2 actualPos;
 
+    public GameObject panelOrdenes;
 
     void Update()
     {
-        if (Input.GetKey("b") && elRobotEsPasajero )
-        {
-            moverLaBarca= true;
-        }
-
         if(moverLaBarca)
         {
             moverBarca();
+        }
+    }
+
+    public void moverMiBarca()
+    {
+        if(elRobotEsPasajero)
+        {
+            moverLaBarca = true;
+            panelOrdenes.SetActive(false);
         }
     }
 
@@ -42,6 +47,7 @@ public class BarcaMovement : MonoBehaviour
 
         if (Vector2.Distance(transform.position, moveSpots[i].transform.position) < 0.1f)
         {
+            panelOrdenes.SetActive(true);
             moverLaBarca = false;
             if (moveSpots[i] != moveSpots[moveSpots.Length - 1])
             {

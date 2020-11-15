@@ -21,6 +21,7 @@ public class Individuo : MonoBehaviour
     public Transform izquierda;
     public Transform derecha;
     public Transform barca;
+    public GameObject panelOrdenes;
 
 
     //private int i = 0;
@@ -42,6 +43,7 @@ public class Individuo : MonoBehaviour
 
         if (Vector2.Distance(transform.position, vecino.position) < 0.05f)
         {
+            panelOrdenes.SetActive(true);
             moverIndividuo = false;
         }
         transform.position = Vector2.MoveTowards(transform.position, vecino.position, speed * Time.deltaTime);

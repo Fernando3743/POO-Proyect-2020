@@ -11,103 +11,79 @@ public class Jugador : MonoBehaviour
     public Individuo zorro;
     public Individuo conejo;
     public Individuo lechuga;
+    public GameObject panelOrdenes;
+    public BarcaMovement laBarca;
 
-
-
-    private void Update()
+    private bool esPasajero(Lugar unLugar,Individuo unIndividuo)
     {
-        Debug.Log(miBarca.cuantosPasajerosHay());
-        moverPersonajes();
+        if(unIndividuo==robot)
+        {
+            return unLugar.estaRobot();
+        }
+        else if (unIndividuo == zorro)
+        {
+            return unLugar.estaZorro();
+        }
+        else if (unIndividuo == conejo)
+        {
+            return unLugar.estaConejo();
+        }
+        else if (unIndividuo == lechuga)
+        {
+            return unLugar.estaLechuga();
+        }
+        return false;
     }
 
-    public void moverPersonajes()
+    private void movement(Individuo unIndividuo)
     {
-        if (Input.GetKeyDown("r"))
+        if ((esPasajero(orillaDerecha,unIndividuo) && orillaDerecha.estaLaBarca() && miBarca.cuantosPasajerosHay() < 2) || (esPasajero(orillaIzquierda, unIndividuo) && orillaIzquierda.estaLaBarca() && miBarca.cuantosPasajerosHay() < 2))
         {
-            if ((orillaDerecha.estaRobot() && orillaDerecha.estaLaBarca() && miBarca.cuantosPasajerosHay() < 2) || (orillaIzquierda.estaRobot() && orillaIzquierda.estaLaBarca() && miBarca.cuantosPasajerosHay() < 2))
+            panelOrdenes.SetActive(false);
+            unIndividuo.actualizarVecino("Barca");
+            unIndividuo.muevete(true);
+        }
+        else if (esPasajero(miBarca,unIndividuo))
+        {
+            if (orillaDerecha.estaLaBarca())
             {
-                robot.actualizarVecino("Barca");
-                robot.muevete(true);
+                panelOrdenes.SetActive(false);
+                unIndividuo.actualizarVecino("Derecha");
+                unIndividuo.muevete(true);
             }
-            else if (miBarca.estaRobot())
+            else if (orillaIzquierda.estaLaBarca())
             {
-                if (orillaDerecha.estaLaBarca())
-                {
-                    robot.actualizarVecino("Derecha");
-                    robot.muevete(true);
-                }
-                else if(orillaIzquierda.estaLaBarca())
-                {
-                    robot.actualizarVecino("Izquierda");
-                    robot.muevete(true);
-                }
+                panelOrdenes.SetActive(false);
+                unIndividuo.actualizarVecino("Izquierda");
+                unIndividuo.muevete(true);
             }
         }
 
-        else if (Input.GetKeyDown("c"))
-        {
-            if ((orillaDerecha.estaConejo() && orillaDerecha.estaLaBarca() && miBarca.cuantosPasajerosHay() < 2) || (orillaIzquierda.estaConejo() && orillaIzquierda.estaLaBarca() && miBarca.cuantosPasajerosHay() < 2))
-            {
-                conejo.actualizarVecino("Barca");
-                conejo.muevete(true);
-            }
-            else if (miBarca.estaConejo())
-            {
-                if(orillaDerecha.estaLaBarca())
-                {
-                    conejo.actualizarVecino("Derecha");
-                    conejo.muevete(true);
-                }
-                else if(orillaIzquierda.estaLaBarca())
-                {
-                    conejo.actualizarVecino("Izquierda");
-                    conejo.muevete(true);
-                }
-            }
-        }
+    }
 
-        else if (Input.GetKeyDown("z"))
-        {
-            if ((orillaDerecha.estaZorro() && orillaDerecha.estaLaBarca() && miBarca.cuantosPasajerosHay() < 2) || (orillaIzquierda.estaZorro() && orillaIzquierda.estaLaBarca() && miBarca.cuantosPasajerosHay() < 2))
-            {
-                zorro.actualizarVecino("Barca");
-                zorro.muevete(true);
-            }
-            else if (miBarca.estaZorro())
-            {
-                if (orillaDerecha.estaLaBarca())
-                {
-                    zorro.actualizarVecino("Derecha");
-                    zorro.muevete(true);
-                }
-                else if(orillaIzquierda.estaLaBarca())
-                {
-                    zorro.actualizarVecino("Izquierda");
-                    zorro.muevete(true);
-                }
-            }
-        }
 
-        else if (Input.GetKeyDown("l"))
-        {
-            if ((orillaDerecha.estaLechuga() && orillaDerecha.estaLaBarca() && miBarca.cuantosPasajerosHay() < 2) || (orillaIzquierda.estaLechuga() && orillaIzquierda.estaLaBarca() && miBarca.cuantosPasajerosHay() < 2))
-            {
-                lechuga.actualizarVecino("Barca");
-                lechuga.muevete(true);
-            }
-            else if (miBarca.estaLechuga())
-            {
-                if (orillaDerecha.estaLaBarca())
-                {
-                    lechuga.actualizarVecino("Derecha");
-                    lechuga.muevete(true);
-                }
-                else if(orillaIzquierda.estaLaBarca())
-                {
-                    lechuga.actualizarVecino("Izquierda");
-                }
-            }
-        }
+    public void moverRobot()
+    {
+        movement(robot);
+    }
 
+    public void moverZorro()
+    {
+        movement( zorro);
+    }
+
+    public void moverConejo()
+    {
+        movement( conejo);
+    }
+
+    public void moverLechuga()
+    {
+        movement( lechuga);
+    }
+
+    public void moverBarca()
+    {
+        laBarca.moverMiBarca();
     }
 }

@@ -11,14 +11,23 @@ public class UIManager : MonoBehaviour
 
     public GameObject optionsPanel;
 
+    public GameObject panelOrdenes;
+
+    private void Start()
+    {
+        Time.timeScale = 1;
+        panelOrdenes.SetActive(true);
+    }
     public void OptionsPanel()
     {
         Time.timeScale = 0;
+        panelOrdenes.SetActive(false);
         optionsPanel.SetActive(true);
     }
     public void Return()
     {
         Time.timeScale = 1;
+        panelOrdenes.SetActive(true);
         optionsPanel.SetActive(false);
     }
 
