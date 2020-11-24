@@ -13,6 +13,7 @@ public class Lugar : MonoBehaviour
     public Transform lechuga;
     public GameObject imagenGanar;
     public GameObject imagenPerder;
+    public GameObject panelOrdenes;
     private bool estaAqui = false;
     private bool ganaste;
     private bool perdiste;
@@ -21,6 +22,7 @@ public class Lugar : MonoBehaviour
     private bool estaElZorro;
     private bool estaLaLechuga;
     private int cantidadPasajeros;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Robot"))
@@ -75,6 +77,11 @@ public class Lugar : MonoBehaviour
 
     void Update()
     {
+        if (imagenGanar.activeSelf || imagenPerder.activeSelf)
+        {
+            panelOrdenes.SetActive(false);
+        }
+
         if (!estaElRobot)
         {
             if (estaElConejo && estaElZorro)
